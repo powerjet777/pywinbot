@@ -8,7 +8,7 @@ class BotClipboard():
 		self.format_numbers=[None]
 		self.format_names=[]
 
-	def get_text(self): #We are only working in "UTF-8" mode to avoid any errors when copying from the web etc.
+	def get_text(self): #We are only working in "UTF-8" mode to avoid any errors when copying utf-8 specific characters.
 		clp.OpenClipboard(None)
 		rc= clp.EnumClipboardFormats(0) #According to MSDN we start iterating from zero and each time supplying the previous number in iteration. When it reaches the end of the list it sends false(I guess).
 		while rc:
@@ -20,7 +20,9 @@ class BotClipboard():
 			rc= clp.EnumClipboardFormats(rc)
 		if (self.text in self.format_numbers):
 			text = clp.GetClipboardData(self.text)
-			return text
+		else:
+			text = ''
+		return text
 #		return self.format_numbers
 		clp.CloseClipboard()
 
